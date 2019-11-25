@@ -200,6 +200,15 @@ const UIController = (
                 document.querySelector(element).insertAdjacentHTML('beforeend', newHTML)
             },
 
+            deleteListItem: function(selectorID){
+                let element 
+
+                element = document.getElementById(selectorID);
+
+                element.parentNode.removeChild(element);
+
+            },
+
             clearFields: function(){
                 let fields, fieldsArr
 
@@ -310,7 +319,7 @@ const globalController = (
         };
 
 
-        //set up event delegation for the delete button parent node of .container
+        //set up event delegation for the delete button(parent node of .container) 
         let ctrlDeleteItem = function(event){
             let itemID, splitID, type, ID; 
             
@@ -326,8 +335,10 @@ const globalController = (
                 budgetController.deleteItem(type, ID)
 
                 //2. delete the item from the UI
+                UICtrl.deleteListItem(itemID)
 
                 //3. Update and show the new budget
+                updateBudget();
 
             }
         };
