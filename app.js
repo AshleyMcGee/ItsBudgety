@@ -200,6 +200,7 @@ const UIController = (
                 document.querySelector(element).insertAdjacentHTML('beforeend', newHTML)
             },
 
+            //Delete the list item based on the itemID
             deleteListItem: function(selectorID){
                 let element 
 
@@ -294,6 +295,15 @@ const globalController = (
         };
 
 
+        let updatePercentages = function(){
+
+            //1. Calculate the percentages
+
+            //2. Read percentages from the budget controller
+
+            //3. Update the user interface with the new percentages. 
+
+        };
 
         //takes input from user interface and creates new items under expense or income
         let ctrlAddItem = function(){
@@ -315,6 +325,9 @@ const globalController = (
                 
                 //5. Calculate and update budget
                 updateBudget();
+
+                //6. Calculate and update the percentages
+                updatePercentages();
              };
         };
 
@@ -339,6 +352,9 @@ const globalController = (
 
                 //3. Update and show the new budget
                 updateBudget();
+
+                //4. Calculate and update percentages
+                updatePercentages();
 
             }
         };
