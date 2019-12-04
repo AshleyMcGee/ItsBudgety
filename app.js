@@ -181,7 +181,7 @@ const budgetController = (
 
 
             testing: function(){
-                console.log(data)
+                //console.log(data)
             }
 
         }
@@ -208,9 +208,39 @@ const UIController = (
             incomeLabel: '.budget__income--value',
             expenseLabel: '.budget__expenses--value',
             percentageLabel: '.budget__expenses--percentage',
-            container: '.container'
+            container: '.container',
+            expensesPercentageLabel: '.item__percentage'
 
-        }
+        };
+
+        let formatNumber = function(num, type){
+
+                var numSplit, int, dec, type
+
+                //+ or - before the number 
+                // exactly two decimal points
+                //comma separating the thousands place
+                // 2310.4567 -> + 2,310.46
+
+                num = Math.abs(num);
+
+                num = num.toFixed(2);
+
+                numSplit = num.split('.');
+
+                int = numSplit[0];
+
+                if(int.length > 3){
+                    int = (0, int.length - 3) + ',' + int.substr(int.length - 3, 3); 
+                };
+
+                dec = numSplit[1];
+
+                type === 'exp' ? sign = '-' : sign = '+'
+
+                return (type === 'exp' ? sign = '-' : '+') + ' ' + int + '.' + dec;
+
+            };
 
         return {
 
@@ -246,7 +276,7 @@ const UIController = (
                  //replace placeholder text with actual data
                  newHTML = html.replace('%id%', obj.id)
                  newHTML = newHTML.replace('%description%', obj.description)
-                 newHTML = newHTML.replace('%value%', obj.value)
+                 newHTML = newHTML.replace('%value%', formatNumber(obj.value, type))
 
                 
                 //insert the html into the DOM
@@ -293,6 +323,33 @@ const UIController = (
                 } else {
                     document.querySelector(DOMstrings.percentageLabel).textContent = '---';
                 }
+
+            },
+
+            displayPercentages: function(percentages){
+
+                let fields = document.querySelectorAll(DOMstrings.expensesPercentageLabel);
+
+                let nodeListForEach = function(list, callback) {
+
+                    for (let i = 0; i < list.length; i++){
+
+                        callback(list[i], i)
+                    }
+
+                };
+
+
+                nodeListForEach(fields, function(current, index){
+
+                    if(percentages[index] > 0){
+
+                        current.textContent = percentages[index] + '%';
+                    } else { current.textContent = '---';
+
+                    }
+
+                });
 
             },
 
@@ -344,7 +401,7 @@ const globalController = (
 
             //3. display the budget on the UI
             UICtrl.displayBudget(budget);
-            console.log(budget)
+            
         };
 
 
@@ -357,7 +414,7 @@ const globalController = (
             let percentages = budgetCtrl.getPercentages();
 
             //3. Update the user interface with the new percentages. 
-            console.log(percentages);
+            UICtrl.displayPercentages(percentages);
 
         };
 
