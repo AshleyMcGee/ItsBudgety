@@ -209,7 +209,8 @@ const UIController = (
             expenseLabel: '.budget__expenses--value',
             percentageLabel: '.budget__expenses--percentage',
             container: '.container',
-            expensesPercentageLabel: '.item__percentage'
+            expensesPercentageLabel: '.item__percentage',
+            dateLabel: '.budget__title--month'
 
         };
 
@@ -313,9 +314,11 @@ const UIController = (
 
             displayBudget: function(obj){
 
-                document.querySelector(DOMstrings.budgetLabel).textContent = obj.budget;
-                document.querySelector(DOMstrings.incomeLabel).textContent = obj.totalInc;
-                document.querySelector(DOMstrings.expenseLabel).textContent = obj.totalExp;
+                obj.budget > 0 ? type = 'inc' : type = 'exp';
+
+                document.querySelector(DOMstrings.budgetLabel).textContent = formatNumber(obj.budget, type);
+                document.querySelector(DOMstrings.incomeLabel).textContent = formatNumber(obj.totalInc, 'inc');
+                document.querySelector(DOMstrings.expenseLabel).textContent = formatNumber(obj.totalExp, 'exp');
                 
 
                 if (obj.percentage > 0){
@@ -350,6 +353,23 @@ const UIController = (
                     }
 
                 });
+
+            },
+
+            displayMonth: function(){
+
+                var now, year, month, months;
+
+                //When will then be now?
+                now = new Date();
+
+                year = now.getFullYear();
+
+                month = now.getMonth();
+
+                months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+
+                document.querySelector(DOMstrings.dateLabel).textContent = months[month] + ' ' + year;
 
             },
 
@@ -476,13 +496,14 @@ const globalController = (
 
             init: function(){
                 console.log("Application has started.")
+                UICtrl.displayMonth()
                 UICtrl.displayBudget({
                     budget: 0,
                     totalInc: 0,
                     totalExp: 0,
                     percentage: -1
                 });
-                setupEventListeners()
+                setupEventListeners();
             }
         }
 
