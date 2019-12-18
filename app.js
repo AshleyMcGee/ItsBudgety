@@ -141,7 +141,6 @@ const budgetController = (
                    b=10
                    c=40
                    income = 100
-
                    a = 20/100 = 20%
                    b = 10/100 = 10%
                    c = 40/100 = 40%
@@ -181,7 +180,7 @@ const budgetController = (
 
 
             testing: function(){
-                //console.log(data)
+                console.log(data)
             }
 
         }
@@ -231,9 +230,9 @@ const UIController = (
 
                 int = numSplit[0];
 
-                if(int.length > 3){
-                    int = (0, int.length - 3) + ',' + int.substr(int.length - 3, 3); 
-                };
+                if (int.length > 3) {
+					int = int.substr(0, int.length - 3) + ',' + int.substr(int.length -3, 3);
+				}; 
 
                 dec = numSplit[1];
 
@@ -373,6 +372,12 @@ const UIController = (
 
             },
 
+            changeType: function(){
+
+            	
+
+            },
+
             getDomStrings: function(){
                 return DOMstrings
             }
@@ -406,6 +411,7 @@ const globalController = (
 
                 //event listener on the delete button
                 document.querySelector(DOM.container).addEventListener('click', ctrlDeleteItem);
+                document.querySelector(DOM.inputType).addEventListener('change', UICtrl.changeType);
         };
 
 
@@ -418,6 +424,7 @@ const globalController = (
 
             //2. return the budget
             budget = budgetController.getBudget();
+            //console.log(budget)
 
             //3. display the budget on the UI
             UICtrl.displayBudget(budget);
