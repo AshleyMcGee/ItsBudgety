@@ -242,6 +242,17 @@ const UIController = (
 
             };
 
+
+            let nodeListForEach = function(list, callback) {
+
+                    for (let i = 0; i < list.length; i++){
+
+                        callback(list[i], i)
+                    }
+
+                };
+
+
         return {
 
             getInput: function(){
@@ -332,15 +343,6 @@ const UIController = (
 
                 let fields = document.querySelectorAll(DOMstrings.expensesPercentageLabel);
 
-                let nodeListForEach = function(list, callback) {
-
-                    for (let i = 0; i < list.length; i++){
-
-                        callback(list[i], i)
-                    }
-
-                };
-
 
                 nodeListForEach(fields, function(current, index){
 
@@ -374,7 +376,28 @@ const UIController = (
 
             changeType: function(){
 
-            	
+            	let fields = document.querySelectorAll(
+            		DOMstrings.inputType + ',' + 
+            		DOMstrings.inputDescription + ',' +
+            		DOMstrings.inputValue
+            		);
+
+            	nodeListForEach(fields, function(cur){
+
+            		cur.classList.toggle('red-focus');
+
+            	});
+
+
+            	document.querySelector(DOMstrings.inputButton).classList.toggle('red');
+
+
+            },
+
+
+            incomeIsDefault: function(){
+
+            	let defaultInput = document.querySelector(DOMstrings.inputType).value = 'inc';
 
             },
 
@@ -412,6 +435,19 @@ const globalController = (
                 //event listener on the delete button
                 document.querySelector(DOM.container).addEventListener('click', ctrlDeleteItem);
                 document.querySelector(DOM.inputType).addEventListener('change', UICtrl.changeType);
+                
+        };
+
+
+        //load income as the default value on page load
+        let setDefaultAsIncome = function(){
+
+        	window.onload = function(){
+
+        		UICtrl.incomeIsDefault();
+
+        	};
+
         };
 
 
@@ -499,6 +535,7 @@ const globalController = (
             }
         };
 
+
         return {
 
             init: function(){
@@ -511,6 +548,7 @@ const globalController = (
                     percentage: -1
                 });
                 setupEventListeners();
+                setDefaultAsIncome();
             }
         }
 
